@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="p-4 mb-4 bg-light rounded-3">
+    <h1 class="mb-2">Gestión de Citas Médicas</h1>
+    <p class="lead mb-0">
+      Actividad Autónoma - Programación Web I - Tercero A Nocturno
+    </p>
+  </div>
+
+  <div class="row g-3 mb-4" *ngIf="!cargando; else cargandoTpl">
+    <div class="col-md-4">
+      <div class="card text-center shadow-sm">
+        <div class="card-body">
+          <h2 class="display-6">{{ totalPacientes }}</h2>
+          <p class="card-text mb-1">Pacientes registrados</p>
+          <span class="badge text-bg-primary">SOAP</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-center shadow-sm">
+        <div class="card-body">
+          <h2 class="display-6">{{ totalMedicos }}</h2>
+          <p class="card-text mb-1">Médicos registrados</p>
+          <span class="badge text-bg-primary">SOAP</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-center shadow-sm">
+        <div class="card-body">
+          <h2 class="display-6">{{ totalCitas }}</h2>
+          <p class="card-text mb-1">Citas registradas</p>
+          <span class="badge text-bg-success">REST</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #cargandoTpl>
+    <p class="text-muted">Cargando resumen desde los servicios SOAP y REST...</p>
+  </ng-template>
+
+  <div class="row g-3">
+    <div class="col-md-4">
+      <a routerLink="/pacientes" class="btn btn-outline-primary w-100 py-3">
+        Gestionar pacientes
+      </a>
+    </div>
+    <div class="col-md-4">
+      <a routerLink="/medicos" class="btn btn-outline-primary w-100 py-3">
+        Gestionar médicos
+      </a>
+    </div>
+    <div class="col-md-4">
+      <a routerLink="/citas" class="btn btn-outline-success w-100 py-3">
+        Gestionar citas y ver el clima
+      </a>
+    </div>
+  </div>
+</div>

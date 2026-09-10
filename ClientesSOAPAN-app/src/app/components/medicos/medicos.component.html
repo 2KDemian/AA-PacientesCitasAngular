@@ -1,0 +1,117 @@
+<div class="container mt-2 mb-5" #formularioMedico>
+  <h2 class="mb-1">
+    {{ editar ? 'Editar médico' : 'Registrar médico' }}
+    <span class="badge text-bg-primary">SOAP - IPacienteMedicoService</span>
+  </h2>
+
+  <form (ngSubmit)="guardar(formMedico)" #formMedico="ngForm" novalidate>
+    <div class="row">
+
+      <div class="col-md-3 mb-2">
+        <input class="form-control" type="text" maxlength="10" placeholder="Cédula"
+               [(ngModel)]="medico.cedula" name="cedula" required minlength="10" pattern="[0-9]*"
+               #cedula="ngModel" [ngClass]="{'is-invalid': cedula.invalid && cedula.touched}">
+        <div class="invalid-feedback">La cédula debe tener 10 dígitos numéricos</div>
+      </div>
+
+      <div class="col-md-3 mb-2">
+        <input class="form-control" type="text" placeholder="Nombre"
+               [(ngModel)]="medico.nombre" name="nombre" required
+               #nombre="ngModel" [ngClass]="{'is-invalid': nombre.invalid && nombre.touched}">
+        <div class="invalid-feedback">El nombre es obligatorio</div>
+      </div>
+
+      <div class="col-md-3 mb-2">
+        <input class="form-control" type="text" placeholder="Apellido"
+               [(ngModel)]="medico.apellido" name="apellido" required
+               #apellido="ngModel" [ngClass]="{'is-invalid': apellido.invalid && apellido.touched}">
+        <div class="invalid-feedback">El apellido es obligatorio</div>
+      </div>
+
+      <div class="col-md-3 mb-2">
+        <input class="form-control" type="text" placeholder="Cargo"
+               [(ngModel)]="medico.cargo" name="cargo" required
+               #cargo="ngModel" [ngClass]="{'is-invalid': cargo.invalid && cargo.touched}">
+        <div class="invalid-feedback">El cargo es obligatorio</div>
+      </div>
+
+      <div class="col-md-4 mb-2">
+        <input class="form-control" type="text" placeholder="Especialidad"
+               [(ngModel)]="medico.especialidad" name="especialidad" required
+               #especialidad="ngModel" [ngClass]="{'is-invalid': especialidad.invalid && especialidad.touched}">
+        <div class="invalid-feedback">La especialidad es obligatoria</div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary me-2" [disabled]="formMedico.invalid || guardando">
+      <mat-icon>{{ editar ? 'edit' : 'add' }}</mat-icon>
+      {{ editar ? 'Actualizar' : 'Registrar' }}
+    </button>
+
+    <button type="button" class="btn btn-secondary" *ngIf="editar" (click)="cancelarEdicion(formMedico)">
+      <mat-icon>close</mat-icon>
+      Cancelar
+    </button>
+  </form>
+
+  <hr class="my-4" />
+
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Buscar</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Buscar médico...">
+  </mat-form-field>
+
+  <div class="table-responsive">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-100">
+
+      <ng-container matColumnDef="idMedico">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+        <td mat-cell *matCellDef="let m">{{ m.idMedico }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="cedula">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cédula</th>
+        <td mat-cell *matCellDef="let m">{{ m.cedula }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+        <td mat-cell *matCellDef="let m">{{ m.nombre }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="apellido">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellido</th>
+        <td mat-cell *matCellDef="let m">{{ m.apellido }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="cargo">
+        <th mat-header-cell *matHeaderCellDef>Cargo</th>
+        <td mat-cell *matCellDef="let m">{{ m.cargo }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="especialidad">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Especialidad</th>
+        <td mat-cell *matCellDef="let m">{{ m.especialidad }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let m">
+          <div class="d-flex gap-1">
+            <button class="btn btn-warning btn-sm" (click)="editarMedico(m)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button class="btn btn-danger btn-sm" (click)="eliminar(m)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="mostrarColumnas"></tr>
+      <tr mat-row *matRowDef="let row; columns: mostrarColumnas;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

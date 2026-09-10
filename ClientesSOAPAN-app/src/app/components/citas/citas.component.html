@@ -1,0 +1,187 @@
+<div class="container mt-2 mb-5">
+
+  <!-- ---------- API externa: clima ---------- -->
+  <div class="card mb-4 shadow-sm">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+        <div>
+          <h5 class="card-title mb-1">
+            Clima complementario <span class="badge text-bg-info">API externa - Open-Meteo</span>
+          </h5>
+        </div>
+
+        <div class="d-flex gap-2">
+          <input class="form-control form-control-sm" style="width: 160px" type="text"
+                 [(ngModel)]="ciudadClima" name="ciudadClima" placeholder="Ciudad">
+          <button class="btn btn-sm btn-info text-white" (click)="consultarClima()" [disabled]="consultandoClima">
+            Consultar clima
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-3" *ngIf="consultandoClima">
+        <span class="spinner-border spinner-border-sm me-2"></span> Consultando API externa...
+      </div>
+
+      <div class="alert alert-danger mt-3 mb-0" *ngIf="!consultandoClima && errorClima">
+        No se pudo obtener el clima: {{ errorClima }}
+      </div>
+
+      <div class="row mt-3" *ngIf="!consultandoClima && clima">
+        <div class="col-md-3"><strong>Ciudad:</strong> {{ clima.ciudad }}</div>
+        <div class="col-md-3"><strong>Temperatura:</strong> {{ clima.temperatura }}°C</div>
+        <div class="col-md-3"><strong>Viento:</strong> {{ clima.velocidadViento }} km/h</div>
+        <div class="col-md-3"><strong>Condición:</strong> {{ clima.descripcion }}</div>
+        <div class="col-12 mt-2">
+          <span class="badge text-bg-warning text-dark">Recomendación</span>
+          {{ clima.recomendacion }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ---------- Formulario de Cita (REST) ---------- -->
+  <div #formularioCita>
+    <h2 class="mb-1">
+      {{ editar ? 'Editar cita' : 'Registrar cita' }}
+      <span class="badge text-bg-success">REST - CitaController</span>
+    </h2>
+
+    <form (ngSubmit)="guardar(formCita)" #formCita="ngForm" novalidate>
+      <div class="row">
+
+        <div class="col-md-3 mb-2">
+          <label class="form-label">Fecha</label>
+          <input class="form-control" type="date" [(ngModel)]="cita.fechaInput" name="fechaInput" required
+                 #fechaInput="ngModel" [ngClass]="{'is-invalid': fechaInput.invalid && fechaInput.touched}">
+        </div>
+
+        <div class="col-md-3 mb-2">
+          <label class="form-label">Hora</label>
+          <input class="form-control" type="time" [(ngModel)]="cita.horaInput" name="horaInput" required
+                 #horaInput="ngModel" [ngClass]="{'is-invalid': horaInput.invalid && horaInput.touched}">
+        </div>
+
+        <div class="col-md-3 mb-2">
+          <label class="form-label">Paciente</label>
+          <select class="form-select" [(ngModel)]="cita.idPaciente" name="idPaciente" required
+                  #idPaciente="ngModel" [ngClass]="{'is-invalid': idPaciente.invalid && idPaciente.touched}">
+            <option [ngValue]="null" disabled>Seleccione...</option>
+            <option *ngFor="let p of pacientes" [ngValue]="p.idPaciente">
+              {{ p.nombre }} {{ p.apellido }} ({{ p.cedula }})
+            </option>
+          </select>
+        </div>
+
+        <div class="col-md-3 mb-2">
+          <label class="form-label">Médico</label>
+          <select class="form-select" [(ngModel)]="cita.idMedico" name="idMedico" required
+                  #idMedico="ngModel" [ngClass]="{'is-invalid': idMedico.invalid && idMedico.touched}">
+            <option [ngValue]="null" disabled>Seleccione...</option>
+            <option *ngFor="let m of medicos" [ngValue]="m.idMedico">
+              {{ m.nombre }} {{ m.apellido }} - {{ m.especialidad }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-md-4 mb-2">
+          <label class="form-label">Motivo</label>
+          <input class="form-control" type="text" [(ngModel)]="cita.motivo" name="motivo" required
+                 #motivo="ngModel" [ngClass]="{'is-invalid': motivo.invalid && motivo.touched}">
+        </div>
+
+        <div class="col-md-4 mb-2">
+          <label class="form-label">Tratamiento</label>
+          <input class="form-control" type="text" [(ngModel)]="cita.tratamiento" name="tratamiento">
+        </div>
+
+        <div class="col-md-4 mb-2 d-flex align-items-end">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" [(ngModel)]="cita.estado" name="estado" id="estadoCita">
+            <label class="form-check-label" for="estadoCita">Confirmada / activa</label>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-success me-2" [disabled]="formCita.invalid || guardando">
+        <mat-icon>{{ editar ? 'edit' : 'add' }}</mat-icon>
+        {{ editar ? 'Actualizar' : 'Registrar' }}
+      </button>
+
+      <button type="button" class="btn btn-secondary" *ngIf="editar" (click)="cancelarEdicion(formCita)">
+        <mat-icon>close</mat-icon>
+        Cancelar
+      </button>
+    </form>
+  </div>
+
+  <hr class="my-4" />
+
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Buscar</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Buscar cita...">
+  </mat-form-field>
+
+  <div class="table-responsive">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-100">
+
+      <ng-container matColumnDef="idCita">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+        <td mat-cell *matCellDef="let c">{{ c.idCita }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="fecha">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
+        <td mat-cell *matCellDef="let c">{{ c.fecha | slice:0:10 }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="hora">
+        <th mat-header-cell *matHeaderCellDef>Hora</th>
+        <td mat-cell *matCellDef="let c">{{ c.hora | slice:11:16 }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="paciente">
+        <th mat-header-cell *matHeaderCellDef>Paciente</th>
+        <td mat-cell *matCellDef="let c">{{ nombrePaciente(c) }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="medico">
+        <th mat-header-cell *matHeaderCellDef>Médico</th>
+        <td mat-cell *matCellDef="let c">{{ nombreMedico(c) }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="motivo">
+        <th mat-header-cell *matHeaderCellDef>Motivo</th>
+        <td mat-cell *matCellDef="let c">{{ c.motivo }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef>Estado</th>
+        <td mat-cell *matCellDef="let c">
+          <span class="badge" [ngClass]="c.estado ? 'text-bg-success' : 'text-bg-secondary'">
+            {{ c.estado ? 'Activa' : 'Inactiva' }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let c">
+          <div class="d-flex gap-1">
+            <button class="btn btn-warning btn-sm" (click)="editarCita(c)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button class="btn btn-danger btn-sm" (click)="eliminar(c)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="mostrarColumnas"></tr>
+      <tr mat-row *matRowDef="let row; columns: mostrarColumnas;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

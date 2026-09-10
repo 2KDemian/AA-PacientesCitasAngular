@@ -1,0 +1,121 @@
+<div class="container mt-2 mb-5" #formularioPaciente>
+  <h2 class="mb-1">
+    {{ editar ? 'Editar paciente' : 'Registrar paciente' }}
+    <span class="badge text-bg-primary">SOAP - IPacienteMedicoService</span>
+  </h2>
+
+  <form (ngSubmit)="guardar(formPaciente)" #formPaciente="ngForm" novalidate>
+    <div class="row">
+
+      <div class="col-md-3 mb-2">
+        <input class="form-control" type="text" maxlength="10" placeholder="Cédula"
+               [(ngModel)]="paciente.cedula" name="cedula" required minlength="10" pattern="[0-9]*"
+               #cedula="ngModel" [ngClass]="{'is-invalid': cedula.invalid && cedula.touched}">
+        <div class="invalid-feedback">La cédula debe tener 10 dígitos numéricos</div>
+      </div>
+
+      <div class="col-md-3 mb-2">
+        <input class="form-control" type="text" placeholder="Nombre"
+               [(ngModel)]="paciente.nombre" name="nombre" required
+               #nombre="ngModel" [ngClass]="{'is-invalid': nombre.invalid && nombre.touched}">
+        <div class="invalid-feedback">El nombre es obligatorio</div>
+      </div>
+
+      <div class="col-md-3 mb-2">
+        <input class="form-control" type="text" placeholder="Apellido"
+               [(ngModel)]="paciente.apellido" name="apellido" required
+               #apellido="ngModel" [ngClass]="{'is-invalid': apellido.invalid && apellido.touched}">
+        <div class="invalid-feedback">El apellido es obligatorio</div>
+      </div>
+
+      <div class="col-md-3 mb-2">
+        <input class="form-control" type="text" placeholder="Teléfono"
+               [(ngModel)]="paciente.telefono" name="telefono" required
+               #telefono="ngModel" [ngClass]="{'is-invalid': telefono.invalid && telefono.touched}">
+        <div class="invalid-feedback">El teléfono es obligatorio</div>
+      </div>
+
+      <div class="col-md-3 mb-2 d-flex align-items-center">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" [(ngModel)]="paciente.estado" name="estado" id="estadoPaciente">
+          <label class="form-check-label" for="estadoPaciente">Activo</label>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary me-2" [disabled]="formPaciente.invalid || guardando">
+      <mat-icon>{{ editar ? 'edit' : 'add' }}</mat-icon>
+      {{ editar ? 'Actualizar' : 'Registrar' }}
+    </button>
+
+    <button type="button" class="btn btn-secondary" *ngIf="editar" (click)="cancelarEdicion(formPaciente)">
+      <mat-icon>close</mat-icon>
+      Cancelar
+    </button>
+  </form>
+
+  <hr class="my-4" />
+
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Buscar</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Buscar paciente...">
+  </mat-form-field>
+
+  <div class="table-responsive">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-100">
+
+      <ng-container matColumnDef="idPaciente">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+        <td mat-cell *matCellDef="let p">{{ p.idPaciente }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="cedula">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cédula</th>
+        <td mat-cell *matCellDef="let p">{{ p.cedula }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+        <td mat-cell *matCellDef="let p">{{ p.nombre }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="apellido">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellido</th>
+        <td mat-cell *matCellDef="let p">{{ p.apellido }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="telefono">
+        <th mat-header-cell *matHeaderCellDef>Teléfono</th>
+        <td mat-cell *matCellDef="let p">{{ p.telefono }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef>Estado</th>
+        <td mat-cell *matCellDef="let p">
+          <span class="badge" [ngClass]="p.estado ? 'text-bg-success' : 'text-bg-secondary'">
+            {{ p.estado ? 'Activo' : 'Inactivo' }}
+          </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let p">
+          <div class="d-flex gap-1">
+            <button class="btn btn-warning btn-sm" (click)="editarPaciente(p)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button class="btn btn-danger btn-sm" (click)="eliminar(p)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="mostrarColumnas"></tr>
+      <tr mat-row *matRowDef="let row; columns: mostrarColumnas;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>
