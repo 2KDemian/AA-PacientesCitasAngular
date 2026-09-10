@@ -43,12 +43,6 @@ ClientesSOAPAN-app/           Frontend Angular
   src/app/config/api-config.ts  URLs base de los servicios propios
 ```
 
-> **Nota sobre el reparto SOAP/REST:** originalmente el proyecto tenía SOAP
-> gestionando Paciente+Cita y REST gestionando Médico. Se reestructuró para
-> que coincida exactamente con lo pedido en la AA: **SOAP = Paciente + Médico**,
-> **REST = Cita**. Si tenías otra copia del backend con el reparto anterior,
-> usa esta versión.
-
 ## 5. Base de datos
 
 1. Abre SQL Server Management Studio (o la herramienta que uses).
@@ -132,12 +126,3 @@ Incluye:
 - Carpeta **SOAP - Paciente y Medico**: todas las operaciones CRUD con el
   sobre XML (SOAPAction) ya armado.
 - Carpeta **REST - Cita**: todas las operaciones CRUD en JSON.
-
-## 10. Pendiente para la entrega (no generado por este asistente)
-
-- [ ] Repositorio de GitHub con esta estructura y el enlace compartido.
-- [ ] Video de máximo 5 minutos demostrando Angular, SOAP, REST, API externa
-      y evidencia en base de datos.
-- [ ] Revisar la fecha de entrega con el docente: el PDF indica
-      **miércoles 09/09/2026**, que ya pasó a la fecha de hoy — confírmalo
-      antes de entregar.
