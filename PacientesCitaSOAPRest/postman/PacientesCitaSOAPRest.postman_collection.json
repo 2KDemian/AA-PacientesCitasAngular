@@ -1,0 +1,230 @@
+{
+  "info": {
+    "name": "PacientesCitaSOAPRest",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5080" }
+  ],
+  "item": [
+    {
+      "name": "SOAP - Paciente y Medico",
+      "item": [
+        {
+          "name": "ObtenerPacientes",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "text/xml; charset=utf-8" },
+              { "key": "SOAPAction", "value": "http://tempuri.org/IPacienteMedicoService/ObtenerPacientes" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tem=\"http://tempuri.org/\">\n  <soap:Body>\n    <tem:ObtenerPacientes/>\n  </soap:Body>\n</soap:Envelope>"
+            },
+            "url": "{{baseUrl}}/PacienteMedicoService.svc"
+          }
+        },
+        {
+          "name": "ObtenerPaciente (por id)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "text/xml; charset=utf-8" },
+              { "key": "SOAPAction", "value": "http://tempuri.org/IPacienteMedicoService/ObtenerPaciente" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tem=\"http://tempuri.org/\">\n  <soap:Body>\n    <tem:ObtenerPaciente>\n      <tem:id>1</tem:id>\n    </tem:ObtenerPaciente>\n  </soap:Body>\n</soap:Envelope>"
+            },
+            "url": "{{baseUrl}}/PacienteMedicoService.svc"
+          }
+        },
+        {
+          "name": "AgregarPaciente",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "text/xml; charset=utf-8" },
+              { "key": "SOAPAction", "value": "http://tempuri.org/IPacienteMedicoService/AgregarPaciente" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tem=\"http://tempuri.org/\">\n  <soap:Body>\n    <tem:AgregarPaciente>\n      <tem:paciente>\n        <tem:Cedula>1799999991</tem:Cedula>\n        <tem:Nombre>Nuevo</tem:Nombre>\n        <tem:Apellido>Paciente</tem:Apellido>\n        <tem:Telefono>0999999999</tem:Telefono>\n        <tem:Estado>true</tem:Estado>\n      </tem:paciente>\n    </tem:AgregarPaciente>\n  </soap:Body>\n</soap:Envelope>"
+            },
+            "url": "{{baseUrl}}/PacienteMedicoService.svc"
+          }
+        },
+        {
+          "name": "ActualizarPaciente",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "text/xml; charset=utf-8" },
+              { "key": "SOAPAction", "value": "http://tempuri.org/IPacienteMedicoService/ActualizarPaciente" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tem=\"http://tempuri.org/\">\n  <soap:Body>\n    <tem:ActualizarPaciente>\n      <tem:paciente>\n        <tem:IdPaciente>1</tem:IdPaciente>\n        <tem:Cedula>1712345678</tem:Cedula>\n        <tem:Nombre>Mateo</tem:Nombre>\n        <tem:Apellido>Salazar</tem:Apellido>\n        <tem:Telefono>0991234567</tem:Telefono>\n        <tem:Estado>true</tem:Estado>\n      </tem:paciente>\n    </tem:ActualizarPaciente>\n  </soap:Body>\n</soap:Envelope>"
+            },
+            "url": "{{baseUrl}}/PacienteMedicoService.svc"
+          }
+        },
+        {
+          "name": "EliminarPaciente",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "text/xml; charset=utf-8" },
+              { "key": "SOAPAction", "value": "http://tempuri.org/IPacienteMedicoService/EliminarPaciente" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tem=\"http://tempuri.org/\">\n  <soap:Body>\n    <tem:EliminarPaciente>\n      <tem:id>3</tem:id>\n    </tem:EliminarPaciente>\n  </soap:Body>\n</soap:Envelope>"
+            },
+            "url": "{{baseUrl}}/PacienteMedicoService.svc"
+          }
+        },
+        {
+          "name": "ObtenerMedicos",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "text/xml; charset=utf-8" },
+              { "key": "SOAPAction", "value": "http://tempuri.org/IPacienteMedicoService/ObtenerMedicos" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tem=\"http://tempuri.org/\">\n  <soap:Body>\n    <tem:ObtenerMedicos/>\n  </soap:Body>\n</soap:Envelope>"
+            },
+            "url": "{{baseUrl}}/PacienteMedicoService.svc"
+          }
+        },
+        {
+          "name": "ObtenerMedico (por id)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "text/xml; charset=utf-8" },
+              { "key": "SOAPAction", "value": "http://tempuri.org/IPacienteMedicoService/ObtenerMedico" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tem=\"http://tempuri.org/\">\n  <soap:Body>\n    <tem:ObtenerMedico>\n      <tem:id>1</tem:id>\n    </tem:ObtenerMedico>\n  </soap:Body>\n</soap:Envelope>"
+            },
+            "url": "{{baseUrl}}/PacienteMedicoService.svc"
+          }
+        },
+        {
+          "name": "AgregarMedico",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "text/xml; charset=utf-8" },
+              { "key": "SOAPAction", "value": "http://tempuri.org/IPacienteMedicoService/AgregarMedico" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tem=\"http://tempuri.org/\">\n  <soap:Body>\n    <tem:AgregarMedico>\n      <tem:medico>\n        <tem:Cedula>1711112222</tem:Cedula>\n        <tem:Nombre>Nuevo</tem:Nombre>\n        <tem:Apellido>Medico</tem:Apellido>\n        <tem:Cargo>Medico Tratante</tem:Cargo>\n        <tem:Especialidad>Pediatria</tem:Especialidad>\n      </tem:medico>\n    </tem:AgregarMedico>\n  </soap:Body>\n</soap:Envelope>"
+            },
+            "url": "{{baseUrl}}/PacienteMedicoService.svc"
+          }
+        },
+        {
+          "name": "ActualizarMedico",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "text/xml; charset=utf-8" },
+              { "key": "SOAPAction", "value": "http://tempuri.org/IPacienteMedicoService/ActualizarMedico" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tem=\"http://tempuri.org/\">\n  <soap:Body>\n    <tem:ActualizarMedico>\n      <tem:medico>\n        <tem:IdMedico>1</tem:IdMedico>\n        <tem:Cedula>1701112223</tem:Cedula>\n        <tem:Nombre>Lucia</tem:Nombre>\n        <tem:Apellido>Ramirez</tem:Apellido>\n        <tem:Cargo>Medico Tratante</tem:Cargo>\n        <tem:Especialidad>Medicina Interna</tem:Especialidad>\n      </tem:medico>\n    </tem:ActualizarMedico>\n  </soap:Body>\n</soap:Envelope>"
+            },
+            "url": "{{baseUrl}}/PacienteMedicoService.svc"
+          }
+        },
+        {
+          "name": "EliminarMedico",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "text/xml; charset=utf-8" },
+              { "key": "SOAPAction", "value": "http://tempuri.org/IPacienteMedicoService/EliminarMedico" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tem=\"http://tempuri.org/\">\n  <soap:Body>\n    <tem:EliminarMedico>\n      <tem:id>3</tem:id>\n    </tem:EliminarMedico>\n  </soap:Body>\n</soap:Envelope>"
+            },
+            "url": "{{baseUrl}}/PacienteMedicoService.svc"
+          }
+        },
+        {
+          "name": "ObtenerMedicosPorEspecialidad",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "text/xml; charset=utf-8" },
+              { "key": "SOAPAction", "value": "http://tempuri.org/IPacienteMedicoService/ObtenerMedicosPorEspecialidad" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tem=\"http://tempuri.org/\">\n  <soap:Body>\n    <tem:ObtenerMedicosPorEspecialidad>\n      <tem:especialidad>Odontologia</tem:especialidad>\n    </tem:ObtenerMedicosPorEspecialidad>\n  </soap:Body>\n</soap:Envelope>"
+            },
+            "url": "{{baseUrl}}/PacienteMedicoService.svc"
+          }
+        }
+      ]
+    },
+    {
+      "name": "REST - Cita",
+      "item": [
+        {
+          "name": "Obtener Citas",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/Cita" }
+        },
+        {
+          "name": "Obtener Cita por Id",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/Cita/1" }
+        },
+        {
+          "name": "Obtener Citas por Paciente",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/Cita/paciente/1" }
+        },
+        {
+          "name": "Obtener Citas por Medico",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/Cita/medico/1" }
+        },
+        {
+          "name": "Agregar Cita",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fecha\": \"2026-09-15\",\n  \"hora\": \"2026-09-15T11:00:00\",\n  \"motivo\": \"Control postoperatorio\",\n  \"tratamiento\": \"Revision\",\n  \"estado\": true,\n  \"idPaciente\": 1,\n  \"idMedico\": 1\n}"
+            },
+            "url": "{{baseUrl}}/api/Cita"
+          }
+        },
+        {
+          "name": "Actualizar Cita",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idCita\": 1,\n  \"fecha\": \"2026-09-16\",\n  \"hora\": \"2026-09-16T09:30:00\",\n  \"motivo\": \"Control general\",\n  \"tratamiento\": \"Ninguno\",\n  \"estado\": true,\n  \"idPaciente\": 1,\n  \"idMedico\": 2\n}"
+            },
+            "url": "{{baseUrl}}/api/Cita/1"
+          }
+        },
+        {
+          "name": "Eliminar Cita",
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/api/Cita/1" }
+        }
+      ]
+    }
+  ]
+}
