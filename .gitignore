@@ -3,6 +3,9 @@ bin/
 obj/
 .vs/
 
+# Config local con datos reales de tu máquina (no se debe publicar)
+PacientesCitaSOAPRest/appsettings.Development.json
+
 # Angular
 node_modules/
 .angular/

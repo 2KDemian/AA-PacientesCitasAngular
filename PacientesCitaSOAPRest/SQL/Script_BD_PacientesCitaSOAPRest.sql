@@ -1,15 +1,4 @@
-/* ============================================================
-   Script_BD_PacientesCitaSOAPRest.sql
-   Actividad Autónoma - Programación Web I - Tercero A Nocturno
-   Tema: Paciente + Medico (SOAP) / Cita (REST)
-   ============================================================ */
-
-IF DB_ID('PacientesCitaSOAPRestDB') IS NOT NULL
-BEGIN
-    ALTER DATABASE PacientesCitaSOAPRestDB SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-    DROP DATABASE PacientesCitaSOAPRestDB;
-END
-GO
+-- Script_BD_PacientesCitaSOAPRest.sql
 
 CREATE DATABASE PacientesCitaSOAPRestDB;
 GO
