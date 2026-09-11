@@ -3,15 +3,8 @@ using System.Runtime.Serialization;
 
 namespace PacientesCitaSOAPRest.Models
 {
-    // Tabla manejada por el servicio SOAP (junto con Paciente).
-    // Mismo fix que en Paciente.cs: se fija el namespace del contrato de
-    // datos a "http://tempuri.org/" para que coincida con lo que Angular
-    // ya envía (prefijo "tem:"), evitando que las propiedades lleguen
-    // vacías al servidor. También se fija [DataMember(Order = N)] en el
-    // mismo orden en que Angular arma el XML (Cedula, Nombre, Apellido,
-    // Cargo, Especialidad), porque DataContractSerializer lee los
-    // elementos en secuencia y por defecto usa orden alfabético — si no
-    // coincide, descarta silenciosamente como "ausente" lo que no encaje.
+    // Mismo fix que Paciente.cs: namespace y Order fijos para que coincidan
+    // con el XML que arma Angular (si no, las propiedades llegan en null).
     [DataContract(Namespace = "http://tempuri.org/")]
     public class Medico
     {
